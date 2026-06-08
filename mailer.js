@@ -188,6 +188,101 @@ const buildDesignRequestHtml = (d) => {
   return wrapHtml('New Design Request', 'Design Preferences Inquiry', body);
 };
 
+// ── Lead Sheet Form ───────────────────────────────────────────────────────────
+
+const buildLeadSheetHtml = (d) => {
+  const workList = Array.isArray(d.workItems) && d.workItems.length
+    ? d.workItems.join(', ')
+    : '—';
+
+  const body = `
+    <table width="100%" cellpadding="0" cellspacing="0">
+
+      ${sectionHeader('Customer Contact')}
+      <tr>
+        <td width="50%" style="padding-bottom:20px;vertical-align:top;">
+          <p style="margin:0 0 5px;font-size:11px;color:#a0aec0;text-transform:uppercase;font-weight:bold;">Full Name</p>
+          <p style="margin:0;font-size:16px;color:#1a202c;font-weight:600;">${d.fullName || '—'}</p>
+        </td>
+        <td width="50%" style="padding-bottom:20px;padding-left:20px;vertical-align:top;">
+          <p style="margin:0 0 5px;font-size:11px;color:#a0aec0;text-transform:uppercase;font-weight:bold;">Phone</p>
+          <p style="margin:0;font-size:16px;color:#1a202c;">${d.phone || '—'}</p>
+        </td>
+      </tr>
+      <tr>
+        <td width="50%" style="padding-bottom:20px;vertical-align:top;">
+          <p style="margin:0 0 5px;font-size:11px;color:#a0aec0;text-transform:uppercase;font-weight:bold;">Email</p>
+          <p style="margin:0;font-size:16px;color:#003366;">${d.email || '—'}</p>
+        </td>
+        <td width="50%" style="padding-bottom:20px;padding-left:20px;vertical-align:top;">
+          <p style="margin:0 0 5px;font-size:11px;color:#a0aec0;text-transform:uppercase;font-weight:bold;">Address</p>
+          <p style="margin:0;font-size:15px;color:#1a202c;">${d.address || '—'}, ${d.city || '—'} ${d.zip || ''}</p>
+        </td>
+      </tr>
+
+      ${sectionHeader('Project Scope')}
+      ${fieldRow('Possible Work Wanted', workList)}
+      <tr>
+        <td colspan="2" style="padding-bottom:20px;">
+          <p style="margin:0 0 8px;font-size:11px;color:#a0aec0;text-transform:uppercase;font-weight:bold;">Estimator Notes</p>
+          <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;">
+            <p style="margin:0;font-size:15px;color:#4a5568;line-height:1.7;">${d.estimatorNotes || '—'}</p>
+          </div>
+        </td>
+      </tr>
+
+      ${sectionHeader('Qualification')}
+      <tr>
+        <td width="50%" style="padding-bottom:20px;vertical-align:top;">
+          <p style="margin:0 0 5px;font-size:11px;color:#a0aec0;text-transform:uppercase;font-weight:bold;">Years Owned Home</p>
+          <p style="margin:0;font-size:15px;color:#1a202c;">${d.yearsOwned || '—'}</p>
+        </td>
+        <td width="50%" style="padding-bottom:20px;padding-left:20px;vertical-align:top;">
+          <p style="margin:0 0 5px;font-size:11px;color:#a0aec0;text-transform:uppercase;font-weight:bold;">Remodel Timeline</p>
+          <p style="margin:0;font-size:15px;color:#2c5282;font-weight:600;">${d.remodelTimeline || '—'}</p>
+        </td>
+      </tr>
+      ${fieldRow('Estimates Received', d.estimatesReceived ?? '—')}
+
+      ${sectionHeader('Office Use Only')}
+      <tr>
+        <td colspan="2" style="padding-bottom:10px;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#f7fafc;border:1px solid #e1e8f0;border-radius:10px;padding:16px;">
+            <tr>
+              <td width="50%" style="padding:12px 16px;vertical-align:top;">
+                <p style="margin:0 0 4px;font-size:11px;color:#a0aec0;text-transform:uppercase;font-weight:bold;">Today's Date</p>
+                <p style="margin:0;font-size:14px;color:#4a5568;">${d.internalDate || '—'}</p>
+              </td>
+              <td width="50%" style="padding:12px 16px;vertical-align:top;">
+                <p style="margin:0 0 4px;font-size:11px;color:#a0aec0;text-transform:uppercase;font-weight:bold;">Set By</p>
+                <p style="margin:0;font-size:14px;color:#4a5568;">${d.setBy || '—'}</p>
+              </td>
+            </tr>
+            <tr>
+              <td width="50%" style="padding:12px 16px;vertical-align:top;border-top:1px solid #e1e8f0;">
+                <p style="margin:0 0 4px;font-size:11px;color:#a0aec0;text-transform:uppercase;font-weight:bold;">Estimate Date</p>
+                <p style="margin:0;font-size:14px;color:#4a5568;">${d.estimateDate || '—'}</p>
+              </td>
+              <td width="50%" style="padding:12px 16px;vertical-align:top;border-top:1px solid #e1e8f0;">
+                <p style="margin:0 0 4px;font-size:11px;color:#a0aec0;text-transform:uppercase;font-weight:bold;">Day</p>
+                <p style="margin:0;font-size:14px;color:#4a5568;">${d.day || '—'}</p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="padding:12px 16px;border-top:1px solid #e1e8f0;">
+                <p style="margin:0 0 4px;font-size:11px;color:#a0aec0;text-transform:uppercase;font-weight:bold;">Time Set</p>
+                <p style="margin:0;font-size:14px;color:#4a5568;">${d.timeSet || '—'}</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+    </table>`;
+
+  return wrapHtml('New Lead Sheet', 'Sales Lead Capture', body);
+};
+
 // ── Exports ───────────────────────────────────────────────────────────────────
 
 const sendBookingEmail = async (data) => {
@@ -210,4 +305,17 @@ const sendDesignRequestEmail = async (data) => {
   });
 };
 
-module.exports = { sendBookingEmail, sendDesignRequestEmail };
+const sendLeadSheetEmail = async (data) => {
+  const workList = Array.isArray(data.workItems) && data.workItems.length
+    ? data.workItems.join(', ')
+    : '—';
+  return transporter.sendMail({
+    from: process.env.FROM_EMAIL,
+    to: process.env.TO_EMAIL,
+    subject: `New Lead Sheet from ${data.fullName || 'Unknown'}`,
+    html: buildLeadSheetHtml(data),
+    text: `Name: ${data.fullName || '—'}\nPhone: ${data.phone || '—'}\nEmail: ${data.email || '—'}\nAddress: ${data.address || '—'}, ${data.city || '—'} ${data.zip || ''}\n\nWork Wanted: ${workList}\nEstimator Notes: ${data.estimatorNotes || '—'}\n\nYears Owned: ${data.yearsOwned || '—'}\nRemodel Timeline: ${data.remodelTimeline || '—'}\nEstimates Received: ${data.estimatesReceived ?? '—'}\n\n--- Office Use ---\nDate: ${data.internalDate || '—'}\nSet By: ${data.setBy || '—'}\nEstimate Date: ${data.estimateDate || '—'}\nDay: ${data.day || '—'}\nTime Set: ${data.timeSet || '—'}`
+  });
+};
+
+module.exports = { sendBookingEmail, sendDesignRequestEmail, sendLeadSheetEmail };
